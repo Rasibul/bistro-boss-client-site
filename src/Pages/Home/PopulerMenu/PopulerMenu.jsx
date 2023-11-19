@@ -2,7 +2,6 @@ import SectionTitle from "../../../Component/SectionTitle";
 import MenuItem from "../Shared/MenuItem/MenuItem";
 import useMenu from "../../../Hooks/useMenu";
 
-
 const PopulerMenu = () => {
     const [menu] = useMenu()
     const populerItem = menu.filter(item => item.category === 'popular')
