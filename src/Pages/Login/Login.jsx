@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 import authentication from '../../assets/others/authentication.gif'
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { useEffect, useRef, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import SocialLogin from '../../Component/SocialLogin/SocialLogin';
 
 const Login = () => {
     const captchaRef = useRef(null)
-    const [disable,setDisable] = useState(true)
-    useEffect(()=>{
-        loadCaptchaEnginge(6); 
-    },[])
+    const [disable, setDisable] = useState(true)
+    useEffect(() => {
+        loadCaptchaEnginge(6);
+    }, [])
     const handelLogin = e => {
         e.preventDefault()
         const from = e.target
@@ -17,19 +19,22 @@ const Login = () => {
         console.log(email, password)
     }
 
-    const handelValidateCaptcha = () =>{
+    const handelValidateCaptcha = () => {
         const value = captchaRef.current.value
-        if(validateCaptcha(value)){
+        if (validateCaptcha(value)) {
             setDisable(false)
         }
 
-        else{
+        else {
             setDisable(true)
         }
     }
 
     return (
         <div className="hero  ">
+            <Helmet>
+                <title>Bistro | Login</title>
+            </Helmet>
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="">
                     <img src={authentication} alt="" />
@@ -57,11 +62,12 @@ const Login = () => {
                             <button onClick={handelValidateCaptcha} className="btn btn-xs mt-2">Validate</button>
                         </div>
                         <div className="form-control mt-6">
-                            <button disabled={disable} className="btn btn-primary">Login</button>
+                            <input disabled={disable} className="btn btn-primary" type="submit" value="Login" />
                         </div>
                         <label className="label font-bold">
                             New here? <Link to="/register" className="label-text-alt link link-hover font-bold">Create an account</Link>
                         </label>
+                        <SocialLogin></SocialLogin>
                     </form>
                 </div>
 
