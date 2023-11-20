@@ -1,14 +1,33 @@
 import { Link } from 'react-router-dom';
 import authentication from '../../assets/others/authentication.gif'
+import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { useEffect, useRef, useState } from 'react';
 
 const Login = () => {
-    const handelLogin = e =>{
+    const captchaRef = useRef(null)
+    const [disable,setDisable] = useState(true)
+    useEffect(()=>{
+        loadCaptchaEnginge(6); 
+    },[])
+    const handelLogin = e => {
         e.preventDefault()
         const from = e.target
         const email = from.email.value
         const password = from.password.value
-        console.log(email,password)
+        console.log(email, password)
     }
+
+    const handelValidateCaptcha = () =>{
+        const value = captchaRef.current.value
+        if(validateCaptcha(value)){
+            setDisable(false)
+        }
+
+        else{
+            setDisable(true)
+        }
+    }
+
     return (
         <div className="hero  ">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -30,15 +49,22 @@ const Login = () => {
                             </label>
                             <input type="password" placeholder="password" name="password" className="input input-bordered" required />
                         </div>
+                        <div className="form-control" >
+                            <label className="label">
+                                <LoadCanvasTemplate />
+                            </label>
+                            <input type="text" ref={captchaRef} placeholder="type above captcha" name="captcha" className="input input-bordered" required />
+                            <button onClick={handelValidateCaptcha} className="btn btn-xs mt-2">Validate</button>
+                        </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                            <button disabled={disable} className="btn btn-primary">Login</button>
                         </div>
                         <label className="label font-bold">
                             New here? <Link to="/register" className="label-text-alt link link-hover font-bold">Create an account</Link>
                         </label>
                     </form>
                 </div>
-                
+
             </div>
         </div>
     );
