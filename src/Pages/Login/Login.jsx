@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import SocialLogin from '../../Component/SocialLogin/SocialLogin';
 import useAuth from '../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Login = () => {
-    const {signIn} = useAuth()
+    const { signIn } = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
     const [disable, setDisable] = useState(true)
@@ -25,7 +26,14 @@ const Login = () => {
             .then(res => {
                 console.log(res.user)
                 navigate(location?.state ? location.state : '/');
-                
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "User Login Sucessfully",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+
             })
             .catch(error => console.log(error))
     }
@@ -69,7 +77,7 @@ const Login = () => {
                             <label className="label">
                                 <LoadCanvasTemplate />
                             </label>
-                            <input type="text" onBlur={handelValidateCaptcha}  placeholder="type above captcha" name="captcha" className="input input-bordered" required />
+                            <input type="text" onBlur={handelValidateCaptcha} placeholder="type above captcha" name="captcha" className="input input-bordered" required />
                         </div>
                         <div className="form-control mt-6">
                             <input disabled={disable} className="btn btn-primary" type="submit" value="Login" />
