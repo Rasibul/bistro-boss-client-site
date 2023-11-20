@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import authentication from '../../assets/others/authentication.gif'
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import SocialLogin from '../../Component/SocialLogin/SocialLogin';
+import useAuth from '../../Hooks/useAuth';
 
 const Login = () => {
-    const captchaRef = useRef(null)
+    const {signIn} = useAuth()
+    const location = useLocation()
+    const navigate = useNavigate()
     const [disable, setDisable] = useState(true)
     useEffect(() => {
         loadCaptchaEnginge(6);
@@ -16,11 +19,19 @@ const Login = () => {
         const from = e.target
         const email = from.email.value
         const password = from.password.value
-        console.log(email, password)
+        // console.log(email, password)
+
+        signIn(email, password)
+            .then(res => {
+                console.log(res.user)
+                navigate(location?.state ? location.state : '/');
+                
+            })
+            .catch(error => console.log(error))
     }
 
-    const handelValidateCaptcha = () => {
-        const value = captchaRef.current.value
+    const handelValidateCaptcha = (e) => {
+        const value = e.target.value
         if (validateCaptcha(value)) {
             setDisable(false)
         }
@@ -58,8 +69,7 @@ const Login = () => {
                             <label className="label">
                                 <LoadCanvasTemplate />
                             </label>
-                            <input type="text" ref={captchaRef} placeholder="type above captcha" name="captcha" className="input input-bordered" required />
-                            <button onClick={handelValidateCaptcha} className="btn btn-xs mt-2">Validate</button>
+                            <input type="text" onBlur={handelValidateCaptcha}  placeholder="type above captcha" name="captcha" className="input input-bordered" required />
                         </div>
                         <div className="form-control mt-6">
                             <input disabled={disable} className="btn btn-primary" type="submit" value="Login" />

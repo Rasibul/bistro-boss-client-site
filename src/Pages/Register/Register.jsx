@@ -1,11 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import authentication2 from '../../assets/others/authentication1.png'
 import { Helmet } from 'react-helmet-async';
 import { useForm } from "react-hook-form"
 import SocialLogin from '../../Component/SocialLogin/SocialLogin';
+import useAuth from '../../Hooks/useAuth';
 const Register = () => {
     const { register, handleSubmit, formState: { errors }, } = useForm()
-    const onSubmit = (data) => console.log(data)
+    const {createUser} = useAuth()
+    const navigate = useNavigate()
+
+    const onSubmit = (data) => {
+        createUser(data.email,data.password)
+        .then(result => {
+            const loggedInUser = result.user
+            console.log(loggedInUser)
+            navigate('/')
+        })
+    }
     return (
         <div className="hero  ">
             <Helmet>
