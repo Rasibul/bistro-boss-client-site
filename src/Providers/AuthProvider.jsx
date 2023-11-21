@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
 
     // update profile
 
-    const handelProfile = (name, photo) => {
+    const updatelProfile = (name, photo) => {
         return updateProfile(auth.currentUser, {
             displayName: name, photoURL: photo
         })
@@ -61,7 +61,7 @@ const AuthProvider = ({ children }) => {
         createUser,
         signIn,
         logOut,
-        handelProfile
+        updateProfile
     }
     return (
         <AuthContex.Provider value={authInfo}>
