@@ -40,12 +40,12 @@ const route = createBrowserRouter([
         element: <Register></Register>
     },
     {
-        path:'dashboard',
-        element:<Dashbord></Dashbord>,
-        children:[
+        path: 'dashboard',
+        element: <PrivateRoute><Dashbord></Dashbord></PrivateRoute>,
+        children: [
             {
-                path:'cart',
-                element:<Cart></Cart>
+                path: 'cart',
+                element: <Cart></Cart>
             }
         ]
     }
