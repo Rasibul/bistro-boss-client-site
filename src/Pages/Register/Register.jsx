@@ -40,7 +40,7 @@ const Register = () => {
                     <img src={authentication2} alt="" />
                 </div>
                 <div className="card w-full max-w-sm ">
-                    <h2 className='text-4xl text-center font-bold'>Please Login </h2>
+                    <h2 className='text-4xl text-center font-bold'>Please Sign Up </h2>
                     <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                         <div className="form-control">
                             <label className="label">
