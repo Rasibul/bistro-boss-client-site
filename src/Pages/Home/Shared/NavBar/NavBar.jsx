@@ -16,7 +16,7 @@ const NavBar = () => {
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/menu'>Our Menu</Link></li>
         <li><Link to='/order/salad'>Order Food</Link></li>
-        <li><Link to=''>
+        <li><Link to='/dashboard/cart'>
             <button className="btn">
                 <FaCartPlus />
                 <div className="badge badge-secondary">+{cart.length}</div>
@@ -25,8 +25,8 @@ const NavBar = () => {
 
         {user ? <>
             <div className="flex justify-center items-center gap-2">
-                <div className="w-10 rounded-full">
-                    <img src={user?.photoURL} />
+                <div>
+                    <img className="w-10 rounded-full" src={user?.photoURL} />
                 </div>
                 <span>{user?.displayName}</span>
             </div>
