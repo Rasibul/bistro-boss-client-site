@@ -2,19 +2,62 @@ import { useQuery } from "@tanstack/react-query";
 import SectionTitle from "../../../Component/SectionTitle";
 import { axiosSecure } from "../../../Hooks/usaeAxiosSecure";
 import { FaTrash, FaUsers } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 
 const AllUser = () => {
-    const { data: users = [] } = useQuery({
+    const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await axiosSecure.get('/api/v1/users')
             return res.data
         }
     })
-    const handelDelete = user => {
-        
+
+    const handelMakeAdmin = user => {
+        axiosSecure.patch(`/api/v1/users/admin/${user._id}`)
+        .then(res =>{
+            console.log(res.data)
+            if(res.data.modifiedCount > 0){
+                refetch()
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${user.name} is an Admin Now!`,
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            }
+        })
     }
+
+
+    const handelDelete = user => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/api/v1/users/${user._id}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                            refetch()
+                        }
+                    })
+            }
+        });
+    }
+
 
     return (
         <div>
@@ -38,17 +81,17 @@ const AllUser = () => {
                         </thead>
                         <tbody>
                             {
-                                users.map((user,index) =>  <tr key={user._id}>
+                                users.map((user, index) => <tr key={user._id}>
                                     <th>{index + 1}</th>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>
-                                    <button onClick={() => handelDelete(user)} className="btn btn-ghost btn-xs"><FaUsers></FaUsers></button>
+                                      { user.role === 'admin' ? 'Admin' : <button onClick={() => handelMakeAdmin(user)} className="btn btn-ghost btn-xs"><FaUsers></FaUsers></button>}
                                     </td>
                                     <td>
-                                         <button onClick={() => handelDelete(user)} className="btn btn-ghost btn-xs"><FaTrash></FaTrash></button>
+                                        <button onClick={() => handelDelete(user)} className="btn btn-ghost btn-xs"><FaTrash></FaTrash></button>
                                     </td>
-                                </tr> )
+                                </tr>)
                             }
                         </tbody>
                     </table>
