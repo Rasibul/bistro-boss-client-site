@@ -1,17 +1,37 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { FaGooglePlus } from "react-icons/fa";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 
 const SocialLogin = () => {
-    const {googleLogin} = useAuth()
+    const { googleLogin } = useAuth()
     const navigate = useNavigate()
-    const handelGoogleLogin = (media) =>{
+    const axiosPublic = useAxiosPublic()
+    const handelGoogleLogin = (media) => {
         media()
-        .then(() =>{
-            navigate('/')
-        })
-        .catch(error => console.log(error))
+            .then(result => {
+                const userInfo = {
+                    name: result.user?.displayName,
+                    email: result.user?.email
+                }
+                axiosPublic.post('/api/v1/users', userInfo)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            console.log(res.data)
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "User Create Sucessfully",
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                        }
+                    })
+                navigate('/')
+            })
+            .catch(error => console.log(error))
     }
     return (
         <>

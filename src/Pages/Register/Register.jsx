@@ -17,11 +17,11 @@ const Register = () => {
             .then(() => {
                 updateProfile(data.name, data.photoURL)
                     .then(() => {
-                        const useInfo = {
+                        const userInfo = {
                             name: data.name,
                             email: data.email
                         }
-                        axiosPublic.post('/api/v1/users', useInfo)
+                        axiosPublic.post('/api/v1/users', userInfo)
                             .then(res => {
                                 if (res.data.insertedId) {
                                     reset()
