@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import SectionTitle from "../../../Component/SectionTitle";
-import { axiosSecure } from "../../../Hooks/usaeAxiosSecure";
+import  useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaTrash, FaUsers } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 
 const AllUser = () => {
+    const axiosSecure =  useAxiosSecure()
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -17,7 +18,7 @@ const AllUser = () => {
     const handelMakeAdmin = user => {
         axiosSecure.patch(`/api/v1/users/admin/${user._id}`)
         .then(res =>{
-            console.log(res.data)
+            // console.log(res.data)
             if(res.data.modifiedCount > 0){
                 refetch()
                 Swal.fire({

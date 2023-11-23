@@ -1,9 +1,10 @@
 import Swal from "sweetalert2";
-import { axiosSecure } from "../../Hooks/usaeAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import useCarts from "../../Hooks/useCarts";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const FoodCart = ({ item }) => {
+    const axiosSecure = useAxiosSecure()
     const { image, recipe, name, price, _id } = item || {}
     const { user } = useAuth()
     const [, refetch] = useCarts()

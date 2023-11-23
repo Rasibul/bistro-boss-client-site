@@ -7,14 +7,16 @@ import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 const Register = () => {
+    const axiosPublic = useAxiosPublic()
     const { register, handleSubmit, reset, formState: { errors }, } = useForm()
     const { createUser, updateProfile } = useAuth()
     const navigate = useNavigate()
 
     const onSubmit = (data) => {
-        const axiosPublic = useAxiosPublic()
         createUser(data.email, data.password)
-            .then(() => {
+            .then(result => {
+                const logedInUser = result.user
+                // console.log(logedInUser)
                 updateProfile(data.name, data.photoURL)
                     .then(() => {
                         const userInfo = {
@@ -32,11 +34,12 @@ const Register = () => {
                                         showConfirmButton: false,
                                         timer: 1000
                                     });
+                                    navigate('/')
                                 }
                             })
                     })
                     .catch(error => console.log(error))
-                navigate('/')
+
             })
     }
     return (
