@@ -9,6 +9,7 @@ import PrivateRoute from "../Component/PrivateRoute/PrivateRoute";
 import Dashbord from "../LayOut/Dashbord";
 import Cart from "../Pages/DashBord/Cart/Cart";
 import AllUser from "../Pages/DashBord/AllUser/AllUser";
+import AddItems from "../Pages/DashBord/AddItems/AddItems";
 
 const route = createBrowserRouter([
     {
@@ -49,6 +50,13 @@ const route = createBrowserRouter([
             {
                 path: 'cart',
                 element: <Cart></Cart>
+            },
+            // admin only routes
+            {
+                path: 'addItems',
+                element: <PrivateRoute>
+                    <AddItems></AddItems>
+                </PrivateRoute>
             },
             {
                 path: 'users',
