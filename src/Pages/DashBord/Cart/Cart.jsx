@@ -2,12 +2,13 @@ import { FaTrash } from "react-icons/fa";
 import useCarts from "../../../Hooks/useCarts";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 
 const Cart = () => {
     const axiosSecure = useAxiosSecure()
-    const [cart,refetch] = useCarts()
+    const [cart, refetch] = useCarts()
     const totalPrice = cart.reduce((total, item) => total + item.price, 0)
 
     const handelDelete = id => {
@@ -24,12 +25,12 @@ const Cart = () => {
                 axiosSecure.delete(`/api/v1/carts/${id}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
-                              Swal.fire({
+                            Swal.fire({
                                 title: "Deleted!",
                                 text: "Your file has been deleted.",
                                 icon: "success"
-                              });
-                              refetch()
+                            });
+                            refetch()
                         }
                     })
             }
@@ -40,7 +41,12 @@ const Cart = () => {
             <div className="flex justify-evenly">
                 <h2 className="text-4xl">Items: {cart.length}</h2>
                 <h2 className="text-4xl">Total price: $ {totalPrice}</h2>
-                <button className="btn bg-red-500 px-6">Pay</button>
+                {
+                    cart.length? <Link to="/dashboard/payment">
+                        <button className="btn bg-red-500 px-6">Pay</button>
+                    </Link> :
+                        <button disabled className="btn bg-red-500 px-6">Pay</button>
+                }
             </div>
             <div className="overflow-x-auto mt-4 ml-4">
                 <table className="table">
