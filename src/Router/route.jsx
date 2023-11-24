@@ -6,10 +6,12 @@ import OrderFood from "../Pages/OrderFood/OrderFood/OrderFood";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import PrivateRoute from "../Component/PrivateRoute/PrivateRoute";
+import AdminRoute from "../Router/AdminRoute"
 import Dashbord from "../LayOut/Dashbord";
 import Cart from "../Pages/DashBord/Cart/Cart";
 import AllUser from "../Pages/DashBord/AllUser/AllUser";
 import AddItems from "../Pages/DashBord/AddItems/AddItems";
+import ManageItems from "../Pages/DashBord/ManageItems/ManageItems";
 
 const route = createBrowserRouter([
     {
@@ -54,9 +56,15 @@ const route = createBrowserRouter([
             // admin only routes
             {
                 path: 'addItems',
-                element: <PrivateRoute>
+                element: <AdminRoute>
                     <AddItems></AddItems>
-                </PrivateRoute>
+                </AdminRoute>
+            },
+            {
+                path: 'manageItems',
+                element: <AdminRoute>
+                    <ManageItems></ManageItems>
+                </AdminRoute>
             },
             {
                 path: 'users',
