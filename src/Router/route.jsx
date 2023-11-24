@@ -13,6 +13,7 @@ import AllUser from "../Pages/DashBord/AllUser/AllUser";
 import AddItems from "../Pages/DashBord/AddItems/AddItems";
 import ManageItems from "../Pages/DashBord/ManageItems/ManageItems";
 import Payment from "../Pages/DashBord/Payment/Payment";
+import PayMentHistory from "../Pages/DashBord/PayMentHistory/PayMentHistory";
 
 const route = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ const route = createBrowserRouter([
             {
                 path: 'payment',
                 element:<Payment></Payment>
+            },
+            {
+                path: 'paymentHistory',
+                element:<PayMentHistory></PayMentHistory>
             },
             // admin only routes
             {
